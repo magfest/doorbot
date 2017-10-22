@@ -1,0 +1,11 @@
+[Service]
+Type=simple
+User=doorbot
+Environment=LANG='en_US.UTF-8'
+WorkingDirectory=/etc/doorbot/doorbot/
+ExecStart=/usr/bin/python -m doorbot
+Restart=always
+RestartSec=5
+
+[Install]
+Alias=multi-user.target.wants/doorbot.service
