@@ -1,9 +1,6 @@
 from doorbot import initialcwd, get_data, save_data, has_perm, require_perm, grant_perm, revoke_perm, get_user_perms, has_perm_msg
 from slackbot.bot import respond_to, listen_to, default_reply
 import subprocess
-import datetime
-import random
-import pytz
 import sys
 import os
 import re
@@ -36,6 +33,15 @@ def die(message):
             print(proc.stdout.read())
 
     os.execv(sys.executable, [sys.executable, '-m', 'doorbot'])
+
+@respond_to('unlock')
+@respond_to('open')
+@require_perm('door.open')
+def unlock(message):
+    with subprocess.Popen(['/usr/local/bin/open_door_shim'], stdout=subprocess.PIPE) as proc:
+        out = proc.stdout.read()
+
+    message.reply(out.strip())
 
 def url_or_code(val):
     if val.startswith('<'):
