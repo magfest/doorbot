@@ -34,8 +34,8 @@ def die(message):
 
     os.execv(sys.executable, [sys.executable, '-m', 'doorbot'])
 
-@respond_to('unlock')
-@respond_to('open')
+@respond_to('unlock', re.IGNORECASE)
+@respond_to('open', re.IGNORECASE)
 @require_perm('door.open')
 def unlock(message):
     """`unlock`: Unlock the warhouse door"""
