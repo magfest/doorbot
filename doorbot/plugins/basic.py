@@ -52,7 +52,7 @@ def url_or_code(val):
 
 @respond_to('^sudo')
 def sudo(message):
-    message.reply("OK")
+    message.reply("Okay.")
 
 @respond_to('^help')
 def help(message):
