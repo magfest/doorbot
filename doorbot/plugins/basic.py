@@ -38,6 +38,7 @@ def die(message):
 @respond_to('open')
 @require_perm('door.open')
 def unlock(message):
+    """`unlock`: Unlock the warhouse door"""
     with subprocess.Popen(['/usr/local/bin/open_door_shim'], stdout=subprocess.PIPE) as proc:
         out = proc.stdout.read()
 
