@@ -105,6 +105,6 @@ def my_permissions(message):
 @default_reply
 def default(message):
     print(message.body)
-    message.reply(':question_mark:')
+    message.reply('Unknown Command')
 
 HELP_THINGS = dir()
