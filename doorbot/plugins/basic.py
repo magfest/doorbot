@@ -69,14 +69,14 @@ def help(message):
 
     message.reply('*doorbot*:\n' + help_str)
 
-@respond_to('^grant ([a-z_.]+) (?:to )<@(U\w+)>', re.IGNORECASE)
+@respond_to('^grant ([a-z_.\*]+) (?:to )<@(U\w+)>', re.IGNORECASE)
 @require_perm('grant.grant')
 def grant_permission(message, permission, user):
     """`grant <permission> to <@person>`: Grants a permission"""
     grant_perm(user, permission)
     message.reply('OK, granting permission `{}`.'.format(permission))
 
-@respond_to('^revoke ([a-z_.]+) (?:from )?<@(U\w+)>', re.IGNORECASE)
+@respond_to('^revoke ([a-z_.\*]+) (?:from )?<@(U\w+)>', re.IGNORECASE)
 @require_perm('grant.revoke')
 def revoke_permission(message, permission, user):
     """`revoke <permission> from <@person>`: Revokes a permission"""
