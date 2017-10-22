@@ -50,6 +50,10 @@ def url_or_code(val):
     else:
         return '`{}`'.format(val)
 
+@respond_to('^sudo')
+def sudo(message):
+    message.reply("OK")
+
 @respond_to('^help')
 def help(message):
     """`help [command]`: Shows this help, or the help for command."""
