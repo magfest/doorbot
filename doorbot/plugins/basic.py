@@ -79,7 +79,11 @@ def help_text_matches(command, docstring):
     else:
         relevant = cleaned
 
-    return command in relevant
+    for line in docstring.split('\n'):
+        if 'alias' in line.lower() and command.lower() in line.lower():
+            return True
+
+    return command.lower() in relevant.lower()
 
 @respond_to('^help ?([a-z_ -]+)?', re.IGNORECASE)
 def help(message, command=None):
@@ -95,8 +99,12 @@ def help(message, command=None):
                     if command and help_text_matches(command, func.__doc__):
                         # Add the whole thing
                         help_str += "\n" + func.__doc__.strip()
+
+                        perms = getattr(func, "permissions", [])
+                        if perms:
+                            help_str += "\n*Permissions*: `" + ", ".join(perms) + "`"
                     elif not command:
-                        help_str += "\n" + func.__doc__.split('\n')[0].strip()
+                        help_str += "\n" + func.__doc__.strip().split('\n')[0]
 
     if command and not help_str:
         message.reply("Help for command `" + command + "` not found.")
