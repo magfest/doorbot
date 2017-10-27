@@ -62,8 +62,17 @@ def url_or_code(val):
 def sudo(message):
     message.reply("Okay.")
 
-@respond_to('^help')
-def help(message):
+def help_text_matches(command, docstring):
+    cleaned = docstring.split('\n')[0].strip()
+    if cleaned.startswith('`'):
+        relevant = cleaned[1:cleaned.find('`', 1)]
+    else:
+        relevant = cleaned
+
+    return command in relevant
+
+@respond_to('^help ?([a-z_ -]+)?', re.IGNORECASE)
+def help(message, command=None):
     """`help [command]`: Shows this help, or the help for command."""
 
     help_str = ""
@@ -73,9 +82,16 @@ def help(message):
         if callable(func) and hasattr(func, "__doc__"):
             if has_perm_msg(message, *getattr(func, "permisions", [])):
                 if func.__doc__:
-                    help_str += "\n" + func.__doc__.split('\n')[0].strip()
+                    if command and help_text_matches(command, func.__doc__):
+                        # Add the whole thing
+                        help_str += "\n" + func.__doc__.strip()
+                    elif not command:
+                        help_str += "\n" + func.__doc__.split('\n')[0].strip()
 
-    message.reply('*doorbot*:\n' + help_str)
+    if command and not help_str:
+        message.reply("Help for command `" + command + "` not found.")
+    else:
+        message.reply('*' + (command or 'doorbot') + '*:' + help_str)
 
 @respond_to('^grant ([a-z_.\*]+) (?:to )<@(U\w+)>', re.IGNORECASE)
 @require_perm('grant.grant')
