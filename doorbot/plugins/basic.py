@@ -13,7 +13,7 @@ def unhighlight(val):
         return val[:1] + "\u200D" + val[1:]
     return val
 
-@respond_to('^version$')
+@respond_to('^version$', re.IGNORECASE)
 def version(message):
     """`version`: Get the bot's current version"""
     with subprocess.Popen(['/usr/bin/git', 'describe', '--always'], stdout=subprocess.PIPE) as proc:
@@ -21,8 +21,8 @@ def version(message):
 
     message.send("_doorbot {}_".format(version.decode('utf-8').strip()))
 
-@respond_to('^die$')
-@respond_to('^restart$')
+@respond_to('^die$', re.IGNORECASE)
+@respond_to('^restart$', re.IGNORECASE)
 @require_perm('admin.restart')
 def die(message):
     """`restart`: Update and restart the bot"""
@@ -111,7 +111,7 @@ def list_permissions(message, user):
     else:
         message.reply('No permissions granted.')
 
-@respond_to('^my perm(?:issions)?s?$')
+@respond_to('^my perm(?:issions)?s?$', re.IGNORECASE)
 def my_permissions(message):
     """`my permissions`: List your own permissions"""
     user_perms = get_user_perms(message._get_user_id())
