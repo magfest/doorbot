@@ -44,6 +44,14 @@ def unlock(message):
 
     message.reply(out.strip())
 
+@respond_to('ip', re.IGNORECASE)
+@require_perm('ip')
+def ip(message):
+    with subprocess.Popen(['ip', 'a'], stdout=subprocess.PIPE) as proc:
+        out = proc.stdout.read()
+
+    message.reply(out.strip())
+
 def url_or_code(val):
     if val.startswith('<'):
         return val[1:-1]
