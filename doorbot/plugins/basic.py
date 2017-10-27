@@ -15,7 +15,10 @@ def unhighlight(val):
 
 @respond_to('^version$', re.IGNORECASE)
 def version(message):
-    """`version`: Get the bot's current version"""
+    """`version`: Get the bot's current version
+
+    Displays the result of `git describe`.
+    """
     with subprocess.Popen(['/usr/bin/git', 'describe', '--always'], stdout=subprocess.PIPE) as proc:
         version = proc.stdout.read()
 
@@ -25,7 +28,10 @@ def version(message):
 @respond_to('^restart$', re.IGNORECASE)
 @require_perm('admin.restart')
 def die(message):
-    """`restart`: Update and restart the bot"""
+    """`restart`: Update and restart the bot.
+
+    Aliases: `die`
+    """
     message.send(":frowning:")
 
     os.chdir(initialcwd)
@@ -38,7 +44,10 @@ def die(message):
 @respond_to('^open', re.IGNORECASE)
 @require_perm('door.open')
 def unlock(message):
-    """`unlock`: Unlock the warhouse door"""
+    """`unlock`: Unlock the warhouse door
+
+    Aliases: `open`
+    """
     with subprocess.Popen(['/usr/local/bin/open_door_shim'], stdout=subprocess.PIPE) as proc:
         out = proc.stdout.read()
 
@@ -47,6 +56,7 @@ def unlock(message):
 @respond_to('ip', re.IGNORECASE)
 @require_perm('ip')
 def ip(message):
+    """`ip`: Displays the bot server's IP address information"""
     with subprocess.Popen(['ip', 'a'], stdout=subprocess.PIPE) as proc:
         out = proc.stdout.read()
 
@@ -96,7 +106,11 @@ def help(message, command=None):
 @respond_to('^grant ([a-z_.\*]+) (?:to )<@(U\w+)>', re.IGNORECASE)
 @require_perm('grant.grant')
 def grant_permission(message, permission, user):
-    """`grant <permission> to <@person>`: Grants a permission"""
+    """`grant <permission> to <@person>`: Grants a permission
+
+    In order to grant a permission, you must also have that permission.
+    Wildcard permission matching may be used with `*`.
+    """
 
     if has_perm_msg(message):
         grant_perm(user, permission)
@@ -107,7 +121,10 @@ def grant_permission(message, permission, user):
 @respond_to('^revoke ([a-z_.\*]+) (?:from )?<@(U\w+)>', re.IGNORECASE)
 @require_perm('grant.revoke')
 def revoke_permission(message, permission, user):
-    """`revoke <permission> from <@person>`: Revokes a permission"""
+    """`revoke <permission> from <@person>`: Revokes a permission
+
+    In order to revoke a permission, you must also have that permission.
+    """
     if has_perm_msg(message):
         if revoke_perm(user, permission):
             message.reply('OK, {} revoked'.format(permission))
