@@ -81,17 +81,24 @@ def help(message):
 @require_perm('grant.grant')
 def grant_permission(message, permission, user):
     """`grant <permission> to <@person>`: Grants a permission"""
-    grant_perm(user, permission)
-    message.reply('OK, granting permission `{}`.'.format(permission))
+
+    if has_perm_msg(message):
+        grant_perm(user, permission)
+        message.reply('OK, granting permission `{}`.'.format(permission))
+    else:
+        message.reply('Cannot grant permission you do not have')
 
 @respond_to('^revoke ([a-z_.\*]+) (?:from )?<@(U\w+)>', re.IGNORECASE)
 @require_perm('grant.revoke')
 def revoke_permission(message, permission, user):
     """`revoke <permission> from <@person>`: Revokes a permission"""
-    if revoke_perm(user, permission):
-        message.reply('OK, {} revoked'.format(permission))
+    if has_perm_msg(message):
+        if revoke_perm(user, permission):
+            message.reply('OK, {} revoked'.format(permission))
+        else:
+            message.reply("Permission `{}` not granted.".format(permission))
     else:
-        message.reply("Permission `{}` not granted.".format(permission))
+        message.reply("Cannot revoke permission you do not have")
 
 @respond_to('^perm(?:ission)?s? (?:for )?<@(U\w+)>', re.IGNORECASE)
 @require_perm('grant.list')
