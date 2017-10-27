@@ -60,7 +60,7 @@ def ip(message):
     with subprocess.Popen(['ip', 'a'], stdout=subprocess.PIPE) as proc:
         out = proc.stdout.read()
 
-    message.reply(out.strip())
+    message.reply('```\n' + out.strip() + '```')
 
 def url_or_code(val):
     if val.startswith('<'):
