@@ -164,6 +164,10 @@ def my_permissions(message):
     else:
         message.reply('You have no permissions.')
 
+@respond_to('execute order 66', re.IGNORECASE)
+def order_66(message):
+    message.reply("Yes, my lord.")
+
 @default_reply
 def default(message):
     print(message.body)
