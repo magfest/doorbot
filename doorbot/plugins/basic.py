@@ -72,6 +72,10 @@ def url_or_code(val):
 def sudo(message):
     message.reply("Okay.")
 
+@respond_to('^make me a (sandwh?it?ch|sammit?ch)', re.IGNORECASE)
+def make_sandwich(message, _):
+    message.reply("What? Make it yourself.")
+
 def help_text_matches(command, docstring):
     cleaned = docstring.split('\n')[0].strip()
     if cleaned.startswith('`'):
