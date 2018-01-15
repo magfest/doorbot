@@ -100,7 +100,7 @@ def help(message, command=None):
         if callable(func) and hasattr(func, "__doc__"):
             if has_perm_msg(message, *getattr(func, "permisions", [])):
                 if func.__doc__:
-                    if "default reply" in func.__doc:
+                    if "default reply" in func.__doc__:
                         continue
                     if command and help_text_matches(command, func.__doc__):
                         # Add the whole thing
