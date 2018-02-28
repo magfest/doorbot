@@ -53,6 +53,21 @@ def unlock(message):
 
     message.reply(out.strip())
 
+
+@respond_to('^arm', re.IGNORECASE)
+@respond_to('^lock', re.IGNORECASE)
+@respond_to('^alarm', re.IGNORECASE)
+@require_perm('door.alarm')
+def unlock(message):
+    """`arm`: Arm the warehouse alarm
+
+    Aliases: `lock`, `alarm`
+    """
+    with subprocess.Popen(['/usr/local/bin/arm_alarm_shim'], stdout=subprocess.PIPE) as proc:
+        out = proc.stdout.read()
+
+    message.reply(out.strip())
+
 @respond_to('ip', re.IGNORECASE)
 @require_perm('ip')
 def ip(message):
