@@ -58,7 +58,7 @@ def unlock(message):
 @respond_to('^lock', re.IGNORECASE)
 @respond_to('^alarm', re.IGNORECASE)
 @require_perm('door.alarm')
-def unlock(message):
+def alarm(message):
     """`arm`: Arm the warehouse alarm
 
     Aliases: `lock`, `alarm`
