@@ -68,6 +68,39 @@ def alarm(message):
 
     message.reply(out.strip())
 
+@respond_to('^set ring ([0-9 -]{10})\\s*$', re.IGNORECASE)
+@require_perm('door.set_ring')
+@require_perm('door.open')
+def set_ring(message, number):
+    """`set ring <10-digit phone number>`: Sets the number to be called when the doorbell is activated"""
+
+    try:
+        with open("/etc/asterisk/warehouse_manager.conf", "w") as f:
+            f.write("same => n,Set(MGRNUM={})\n".format(number))
+
+        with subprocess.Popen(['/usr/local/bin/reload_asterisk_shim'], stdout=subprocess.PIPE) as proc:
+            out = proc.stdout.read()
+
+        message.reply("Successfully set doorbell number to `{}`. Don't forget to test it!".format(number))
+    except:
+        message.reply("Something went wrong. Unable to change phone number")
+
+@respond_to('^get ring', re.IGNORECASE)
+@require_perm('door.get_ring')
+def get_ring(message):
+    """`get ring`: Retrieves the number to be called when the doorbell is activated"""
+
+    try:
+        with open("/etc/asterisk/warehouse_manager.conf") as f:
+           text = f.read()
+           matches = re.search('MGRNUM=([0-9]+)', text)
+           if matches:
+               message.reply("The doorbell will call `{}`".format(matches[1]))
+          else:
+              message.reply("Maybe the number was never set?")
+    except:
+        message.reply("Something went wrong. Maybe the number was never set?")
+
 @respond_to('ip', re.IGNORECASE)
 @require_perm('ip')
 def ip(message):
