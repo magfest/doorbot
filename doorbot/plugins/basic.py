@@ -96,8 +96,8 @@ def get_ring(message):
            matches = re.search('MGRNUM=([0-9]+)', text)
            if matches:
                message.reply("The doorbell will call `{}`".format(matches[1]))
-          else:
-              message.reply("Maybe the number was never set?")
+           else:
+               message.reply("Maybe the number was never set?")
     except:
         message.reply("Something went wrong. Maybe the number was never set?")
 
