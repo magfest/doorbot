@@ -72,7 +72,10 @@ def alarm(message):
 @require_perm('door.set_ring')
 @require_perm('door.open')
 def set_ring(message, number):
-    """`set ring <10-digit phone number>`: Sets the number to be called when the doorbell is activated"""
+    """`set ring <10-digit phone number>`: Sets the number to be called when the doorbell is activated
+
+    The phone number must be a 10-digit phone number with no spaces or non-numeric characters.
+    """
 
     try:
         with open("/etc/asterisk/warehouse_manager.conf", "w") as f:
