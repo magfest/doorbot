@@ -1,0 +1,18 @@
+#!/usr/bin/env python3
+
+import RPi.GPIO as gpio
+import requests
+import time
+
+gpio.setmode(gpio.BCM)
+
+gpio.setup(27, gpio.OUT)
+
+try:
+    print("Arming alarm...")
+    gpio.output(27, gpio.LOW)
+    time.sleep(1)
+    print("Alarm armed!")
+finally:
+    gpio.output(27, gpio.HIGH)
+
