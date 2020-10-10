@@ -6,16 +6,16 @@ import time
 
 gpio.setmode(gpio.BCM)
 
-gpio.setup(17, gpio.OUT)
+#gpio.setup(17, gpio.OUT)
 gpio.setup(22, gpio.OUT)
 
 try:
     print("Unlocking door...")
     gpio.output(22, gpio.LOW)
-    gpio.output(17, gpio.LOW)
+#    gpio.output(17, gpio.LOW)
     time.sleep(1)
     print("Door unlocked!")
 finally:
-    gpio.output(17, gpio.HIGH)
+#    gpio.output(17, gpio.HIGH)
     gpio.output(22, gpio.HIGH)
 
